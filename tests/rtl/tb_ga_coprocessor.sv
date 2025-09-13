@@ -173,32 +173,42 @@ module tb_ga_coprocessor;
 
   GATestLogger logger;
   
-  initial begin
+  int debug_opcode = -1;
+  int debug_max = -1;
 
-    $display("TB: GA_EVEN macro: %0d  GA_USE_EVEN param: %0d",
-            `ifdef GA_EVEN 1 `else 0 `endif,
-            ga_pkg::GA_USE_EVEN);
-  end
-
-  initial begin
-
-    $display("Loading test vectors...");
-
-    if (ga_pkg::GA_USE_EVEN) begin
-  
-        $readmemh("vectors/cga_test_inputs_even.mem", test_inputs_mem);
-        $readmemh("vectors/cga_test_outputs_even.mem", test_outputs_mem);
-        $readmemh("vectors/cga_test_control_even.mem", test_control_mem);
-
-    end else begin
-
-        $readmemh("vectors/cga_test_inputs.mem", test_inputs_mem);
-        $readmemh("vectors/cga_test_outputs.mem", test_outputs_mem);
-        $readmemh("vectors/cga_test_control.mem", test_control_mem);
-
+    initial begin
+      if ($value$plusargs("DEBUG_OPCODE=%d", debug_opcode))
+        $display("Debug: Only running tests with opcode %0d", debug_opcode);
+      if ($value$plusargs("DEBUG_MAX=%d", debug_max))
+        $display("Debug: Limiting to %0d tests", debug_max);
     end
 
-  end
+    initial begin
+
+      $display("TB: GA_EVEN macro: %0d  GA_USE_EVEN param: %0d",
+              `ifdef GA_EVEN 1 `else 0 `endif,
+              ga_pkg::GA_USE_EVEN);
+    end
+
+    initial begin
+
+      $display("Loading test vectors...");
+
+      if (ga_pkg::GA_USE_EVEN) begin
+    
+          $readmemh("tests/vectors/cga_test_inputs_even.mem", test_inputs_mem);
+          $readmemh("tests/vectors/cga_test_outputs_even.mem", test_outputs_mem);
+          $readmemh("tests/vectors/cga_test_control_even.mem", test_control_mem);
+
+      end else begin
+
+          $readmemh("tests/vectors/cga_test_inputs.mem", test_inputs_mem);
+          $readmemh("tests/vectors/cga_test_outputs.mem", test_outputs_mem);
+          $readmemh("tests/vectors/cga_test_control.mem", test_control_mem);
+
+      end
+
+    end
   
   initial begin
     
@@ -223,8 +233,24 @@ module tb_ga_coprocessor;
     begin : test_loop
 
       int i;
+      int num_run = 0;
+      int opcode_int;
+
       for (i = 0; i < NUM_TESTS; i++) begin
-        
+
+        opcode_int = int'(test_control_mem[i]);
+
+        if ((debug_opcode >= 0) && (opcode_int != debug_opcode)) begin
+        end else begin
+          run_single_test(i);
+          num_run++;
+        end
+
+        if ((debug_max >= 0) && (num_run >= debug_max)) begin
+          i = NUM_TESTS;
+        end
+
+        num_run++;
         run_single_test(i);
         test_count++;
         
@@ -286,6 +312,8 @@ module tb_ga_coprocessor;
     ga_req.ga_reg_b         = 5'h1;
     ga_req.we               = 1'b1;
     ga_req.use_ga_regs      = 1'b0;
+
+    $display("  Test: %0d OPCODE: %0d  OPERAND_A: %h  OPERAND_B: %h", test_index, function_code, operand_a, operand_b);
 
     while (!ga_resp.ready) @(posedge clk);
     
@@ -394,7 +422,7 @@ module tb_ga_coprocessor;
   
   initial begin
 
-    #(CLK_PERIOD * NUM_TESTS * 100);
+    #(CLK_PERIOD * NUM_TESTS * 1000);
     if (!test_complete) begin
 
       $error("Test suite timeout!");
