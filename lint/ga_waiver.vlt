@@ -1,0 +1,14 @@
+// Copyright lowRISC contributors.
+// Licensed under the Apache License, Version 2.0, see LICENSE for details.
+// SPDX-License-Identifier: Apache-2.0
+
+`verilator_config
+
+lint_off -rule UNUSED -file "*/ga_*.sv" -match "*"
+lint_off -rule WIDTH -file "*/ga_alu.sv" -match "*"
+lint_off -rule UNDRIVEN -file "*/ga_*.sv" -match "*"
+lint_off -rule UNUSEDPARAM -file "*/ga_*.sv" -match "*"
+lint_off -rule UNUSEDSIGNAL -file "*/ga_*.sv" -match "*"
+
+// Waive caseincomplete warnings for GA FSM states (development)
+lint_off -rule CASEINCOMPLETE -file "*/ga_coprocessor.sv" -match "*"

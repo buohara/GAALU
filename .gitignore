@@ -1,0 +1,7 @@
+.mem
+tests/obj_dir
+tests/vectors
+*.log
+tests/generate_test_vectors
+scripts/venv
+scripts/svgen/*.sv
