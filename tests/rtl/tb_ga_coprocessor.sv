@@ -13,7 +13,7 @@ module tb_ga_coprocessor;
 
   import ga_pkg::*;
 
-  parameter int NUM_TESTS   = 1000;
+  parameter int NUM_TESTS   = 9184;
   parameter int CLK_PERIOD  = 10;
 
   logic clk;
@@ -324,12 +324,6 @@ module tb_ga_coprocessor;
       actual_result = ga_resp.result;
       test_passed   = (actual_result == expected_result);
       ga_req.valid  = 1'b0;
-
-      if (function_code == GA_FUNCT_MUL)
-        $display("%0d: %0d | A: %h | B: %h | Expected: %h | Actual: %h | %s",
-                 test_index, function_code, 
-                 operand_a, operand_b, expected_result, actual_result,
-                 test_passed ? "PASS" : "FAIL");
 
       if (test_passed) begin
 

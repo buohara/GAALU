@@ -5,3 +5,7 @@ tests/vectors
 tests/generate_test_vectors
 scripts/venv
 scripts/svgen/*.sv
+vivado*
+.Xil
+gaalu_proj
+obj_dir

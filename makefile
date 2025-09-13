@@ -2,7 +2,7 @@ CXX = g++
 VECTORS_DIR = tests/vectors
 CXXFLAGS = -std=c++17 -O0 -g3 -Wall -Wextra -DDEBUG
 
-GA_EVEN ?= 0
+GA_EVEN ?= 1
 NUM_TESTS ?= 1000
 
 ifeq ($(GA_EVEN),1)

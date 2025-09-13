@@ -47,7 +47,7 @@ def reverse(mv):
     return ~mv
 
 def even_part(mv):
-    return mv.grade(0) + mv.grade(2) + mv.grade(4)
+    return mv(0) + mv(2) + mv(4)
 
 name_to_index = {}
 
