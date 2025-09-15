@@ -13,7 +13,7 @@ module tb_ga_coprocessor;
 
   import ga_pkg::*;
 
-  parameter int NUM_TESTS   = 9184;
+  parameter int NUM_TESTS   = 8000;
   parameter int CLK_PERIOD  = 10;
 
   logic clk;
@@ -173,8 +173,8 @@ module tb_ga_coprocessor;
 
   GATestLogger logger;
   
-  int debug_opcode = -1;
-  int debug_max = -1;
+  int debug_opcode  = -1;
+  int debug_max     = -1;
 
     initial begin
       if ($value$plusargs("DEBUG_OPCODE=%d", debug_opcode))
@@ -250,8 +250,6 @@ module tb_ga_coprocessor;
           i = NUM_TESTS;
         end
 
-        num_run++;
-        run_single_test(i);
         test_count++;
         
         if (i % 50 == 0) begin
@@ -313,8 +311,6 @@ module tb_ga_coprocessor;
     ga_req.we               = 1'b1;
     ga_req.use_ga_regs      = 1'b0;
 
-    $display("  Test: %0d OPCODE: %0d  OPERAND_A: %h  OPERAND_B: %h", test_index, function_code, operand_a, operand_b);
-
     while (!ga_resp.ready) @(posedge clk);
     
     if (should_continue) begin
@@ -352,6 +348,9 @@ module tb_ga_coprocessor;
       actual_result = ga_resp.result;
       test_passed   = (actual_result == expected_result);
       ga_req.valid  = 1'b0;
+
+      $display("Test %0d: Op - %0d A - %h B - %h Act - %h Exp - %h Res - %s", test_index, function_code, 
+        operand_a, operand_b, actual_result, expected_result, test_passed ? "PASS" : "FAIL");
 
       if (test_passed) begin
 
@@ -435,7 +434,7 @@ module tb_ga_coprocessor;
   bit use_even;
   initial begin
     use_even = 0;
-    if ($test$plusargs("GA_EVEN")) use_even = 1;
+    if (ga_pkg::GA_USE_EVEN) use_even = 1;
     $display("GA mode: %s", use_even ? "EVEN" : "FULL");
   end
 

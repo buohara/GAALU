@@ -263,7 +263,7 @@ generate
 
   if (ga_pkg::GA_USE_EVEN) begin : g_even_alu
 
-    initial $display("Even GA ALU in progress. Defaulting to full GA ALU.");
+    initial $display("Even GA ALU in progress.");
 
     ga_alu_even u_ga_alu_even 
     (

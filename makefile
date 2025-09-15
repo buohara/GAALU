@@ -1,9 +1,9 @@
-CXX = g++
+CXX 		= g++
 VECTORS_DIR = tests/vectors
-CXXFLAGS = -std=c++17 -O0 -g3 -Wall -Wextra -DDEBUG
+CXXFLAGS 	= -std=c++17 -O0 -g3 -Wall -Wextra -DDEBUG
 
-GA_EVEN ?= 1
-NUM_TESTS ?= 1000
+GA_EVEN 	?= 1
+NUM_TESTS 	?= 1000
 
 ifeq ($(GA_EVEN),1)
 VERILATOR_FLAGS += -DGA_EVEN
@@ -48,7 +48,7 @@ help:
 	@echo "Verilator Simulation:"
 	@echo "  make simulate          - Run simulation"
 	@echo "  make simulate WAVES=1  - Run with waveforms"
-	@echo "  make clean            - Clean artifacts"
+	@echo "  make clean             - Clean artifacts"
 	@echo ""
 	@echo "View waveforms: gtkwave ga_coprocessor_test.vcd"
 

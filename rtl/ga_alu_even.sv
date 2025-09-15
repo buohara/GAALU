@@ -256,12 +256,12 @@ module ga_alu_even
         ga_multivector_t a,
         ga_multivector_t b
     );
-
         longint signed acc[EVEN_LANES];
         logic signed [FP_W-1:0] al[EVEN_LANES], bl[EVEN_LANES];
         logic signed [FP_W-1:0] out_lane[EVEN_LANES];
         
-        for (int i=0;i<EVEN_LANES;i++) acc[i] = 0;
+        for (int i = 0; i < EVEN_LANES; i++) 
+            acc[i] = 0;
         
         pack_even(a, al);
         pack_even(b, bl);
@@ -284,11 +284,14 @@ module ga_alu_even
         `ACCN(L_SCALAR, al[L_EOI], bl[L_SCALAR]);
         `ACCP(L_SCALAR, al[L_EOI], bl[L_EOI]);
         `ACCP(L_SCALAR, al[L_E12OI], bl[L_E12]);
-        `ACCN(L_SCALAR, al[L_E12OI], bl[L_E12OI]);
+    // Removed self-product contribution of e12oi into scalar (should be 0)
+    //`ACCN(L_SCALAR, al[L_E12OI], bl[L_E12OI]);
         `ACCP(L_SCALAR, al[L_E13OI], bl[L_E13]);
-        `ACCN(L_SCALAR, al[L_E13OI], bl[L_E13OI]);
+    // Removed self-product contribution of e13oi into scalar (should be 0)
+    //`ACCN(L_SCALAR, al[L_E13OI], bl[L_E13OI]);
         `ACCP(L_SCALAR, al[L_E23OI], bl[L_E23]);
-        `ACCN(L_SCALAR, al[L_E23OI], bl[L_E23OI]);
+    // Removed self-product contribution of e23oi into scalar (should be 0)
+    //`ACCN(L_SCALAR, al[L_E23OI], bl[L_E23OI]);
 
         `ACCP(L_E12, al[L_SCALAR], bl[L_E12]);
         `ACCP(L_E12, al[L_E12], bl[L_SCALAR]);
@@ -470,11 +473,9 @@ module ga_alu_even
         `ACCP(L_EOI, al[L_EOI], bl[L_SCALAR]);
         `ACCN(L_EOI, al[L_EOI], bl[L_EOI]);
         `ACCN(L_EOI, al[L_E12OI], bl[L_E12]);
-        `ACCP(L_EOI, al[L_E12OI], bl[L_E12OI]);
+    
         `ACCN(L_EOI, al[L_E13OI], bl[L_E13]);
-        `ACCP(L_EOI, al[L_E13OI], bl[L_E13OI]);
         `ACCN(L_EOI, al[L_E23OI], bl[L_E23]);
-        `ACCP(L_EOI, al[L_E23OI], bl[L_E23OI]);
 
         `ACCP(L_E123O, al[L_SCALAR], bl[L_E123O]);
         `ACCP(L_E123O, al[L_E12], bl[L_E3O]);
