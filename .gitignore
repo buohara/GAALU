@@ -11,3 +11,4 @@ gaalu_proj
 obj_dir
 run.sh
 *.vcd
+simlog.txt

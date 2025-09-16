@@ -23,23 +23,26 @@ def mv_from_name_null(name: str):
         return layout.scalar
     mv = layout.scalar
     for ch in name[1:]:
-        mv = mv * vec_map_null[ch]
+        
+        mv = mv ^ vec_map_null[ch]
+    
     return mv
 
-HARDCASED_PAIRS = [
-    ('e1','e1'),
-    ('e1','e2'),
-    ('e2','e2'),
-    ('e12','e12'),
-    ('e12','e13'),
-    ('e4','e4'),
-    ('e5','e5'),
-    ('e4','e5'),
-    ('e14','e15'),
-    ('e14','e24'),
-    ('e1234','e1235'),
-    ('e1245','e1245'),
-]
+# HARDCASED_PAIRS kept for reference (now superseded by full blade-pair expansion):
+# HARDCASED_PAIRS = [
+#     ('e1','e1'),
+#     ('e1','e2'),
+#     ('e2','e2'),
+#     ('e12','e12'),
+#     ('e12','e13'),
+#     ('e4','e4'),
+#     ('e5','e5'),
+#     ('e4','e5'),
+#     ('e14','e15'),
+#     ('e14','e24'),
+#     ('e1234','e1235'),
+#     ('e1245','e1245'),
+# ]
 
 FRAC = 11
 MIN_I = - (1 << 15)
@@ -83,6 +86,19 @@ blade_names = [
     'e145','e245','e345',
     'e1234','e1235',
     'e1245','e1345','e2345','e12345'
+]
+
+# Even-subalgebra basis (null basis names expressed with canonical indices):
+#  - scalar (grade-0)
+#  - bivectors (grade-2): e12,e13,e23,e14,e24,e34,e15,e25,e35,e45
+#  - 4-vectors (grade-4): e1234,e1235,e1245,e1345,e2345
+even_blade_names = [
+    'scalar',
+    'e12','e13','e23',
+    'e14','e24','e34',
+    'e15','e25','e35',
+    'e45',
+    'e1234','e1235','e1245','e1345','e2345',
 ]
 
 vec_map_canon = {'1': e1, '2': e2, '3': e3, '4': _e4, '5': _e5}
@@ -152,9 +168,8 @@ def apply_op(opcode: int, A, B):
     if opcode == OPCODES['sub']: return A - B
     if opcode == OPCODES['mul']: return A * B
     if opcode == OPCODES['wedge']: return A ^ B
-    if opcode == OPCODES['dot']: return A | B
+    if opcode == OPCODES['dot']: return A << B
     raise ValueError('Unsupported opcode')
-
 
 def main():
 
@@ -181,7 +196,14 @@ def main():
 
     ops = [OPCODES[k] for k in ('add','sub','mul','wedge','dot')]
 
-    named_pairs = [(a,b,mv_from_name_null(a), mv_from_name_null(b)) for (a,b) in HARDCASED_PAIRS]
+    # If generating EVEN vectors, restrict pairs to the even subalgebra basis
+    # (including scalar). Otherwise, use the full basis.
+    basis_for_pairs = even_blade_names if args.even else blade_names
+
+    named_pairs = [
+        (a, b, mv_from_name_null(a), mv_from_name_null(b))
+        for a in basis_for_pairs for b in basis_for_pairs
+    ]
     even_line = 0
 
     for (A_name,B_name,A,B) in named_pairs:
@@ -202,7 +224,10 @@ def main():
             f_ctl.write(f"{opcode}\n")
 
             if args.even:
-
+                # Even-mode: inputs fed to the DUT are even-projected (no odd lanes enter).
+                # Compute expected results from the same even-projected inputs to avoid
+                # any dependency on odd components of the original blades. Since the
+                # even subalgebra is closed under all our ops, the final even_part is a no-op.
                 A_e = even_part(A)
                 B_e = even_part(Bu)
                 R_e = even_part(apply_op(opcode, A_e, B_e))
@@ -219,10 +244,7 @@ def main():
                 f_out_e.write(''.join(hex16(x) for x in R_eq))
                 f_out_e.write('\n')
                 f_ctl_e.write(f"{opcode}\n")
-                # Log non-zero lane names and values for A and B
-                a_nz = [f"{n}={hex16(v)}" for n,v in zip(a_lanes, A_eq) if v != 0]
-                b_nz = [f"{n}={hex16(v)}" for n,v in zip(a_lanes, B_eq) if v != 0]
-                f_idx_e.write(f"{even_line}: op={opcode} A={A_name} B={B_name} | A_nz: {' '.join(a_nz)} | B_nz: {' '.join(b_nz)}\n")
+                f_idx_e.write(f"{even_line}: op={opcode} A={A_name} B={B_name}\n")
                 even_line += 1
 
     f_in.close(); f_out.close(); f_ctl.close()

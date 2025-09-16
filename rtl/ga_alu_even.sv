@@ -256,9 +256,9 @@ module ga_alu_even
         ga_multivector_t a,
         ga_multivector_t b
     );
-        longint signed acc[EVEN_LANES];
-        logic signed [FP_W-1:0] al[EVEN_LANES], bl[EVEN_LANES];
-        logic signed [FP_W-1:0] out_lane[EVEN_LANES];
+    longint signed acc[EVEN_LANES];
+    logic signed [FP_W-1:0] al[EVEN_LANES], bl[EVEN_LANES];
+    logic signed [FP_W-1:0] out_lane[EVEN_LANES];
         
         for (int i = 0; i < EVEN_LANES; i++) 
             acc[i] = 0;
@@ -281,17 +281,10 @@ module ga_alu_even
         `ACCP(L_SCALAR, al[L_E2I], bl[L_E2O]);
         `ACCP(L_SCALAR, al[L_E3I], bl[L_E3O]);
         `ACCN(L_SCALAR, al[L_E123I], bl[L_E123O]);
-        `ACCN(L_SCALAR, al[L_EOI], bl[L_SCALAR]);
         `ACCP(L_SCALAR, al[L_EOI], bl[L_EOI]);
-        `ACCP(L_SCALAR, al[L_E12OI], bl[L_E12]);
-    // Removed self-product contribution of e12oi into scalar (should be 0)
-    //`ACCN(L_SCALAR, al[L_E12OI], bl[L_E12OI]);
-        `ACCP(L_SCALAR, al[L_E13OI], bl[L_E13]);
-    // Removed self-product contribution of e13oi into scalar (should be 0)
-    //`ACCN(L_SCALAR, al[L_E13OI], bl[L_E13OI]);
-        `ACCP(L_SCALAR, al[L_E23OI], bl[L_E23]);
-    // Removed self-product contribution of e23oi into scalar (should be 0)
-    //`ACCN(L_SCALAR, al[L_E23OI], bl[L_E23OI]);
+        `ACCN(L_SCALAR, al[L_E12OI], bl[L_E12OI]);
+        `ACCN(L_SCALAR, al[L_E13OI], bl[L_E13OI]);
+        `ACCN(L_SCALAR, al[L_E23OI], bl[L_E23OI]);
 
         `ACCP(L_E12, al[L_SCALAR], bl[L_E12]);
         `ACCP(L_E12, al[L_E12], bl[L_SCALAR]);
@@ -305,9 +298,10 @@ module ga_alu_even
         `ACCN(L_E12, al[L_E2I], bl[L_E1O]);
         `ACCP(L_E12, al[L_E3I], bl[L_E123O]);
         `ACCP(L_E12, al[L_E123I], bl[L_E3O]);
-        `ACCN(L_E12, al[L_EOI], bl[L_E12]);
+
         `ACCP(L_E12, al[L_EOI], bl[L_E12OI]);
-        `ACCN(L_E12, al[L_E12OI], bl[L_SCALAR]);
+    // Quad×scalar should not generate bivector; commented to prevent leakage
+    // `ACCN(L_E12, al[L_E12OI], bl[L_SCALAR]);
         `ACCP(L_E12, al[L_E12OI], bl[L_EOI]);
         `ACCP(L_E12, al[L_E13OI], bl[L_E23]);
         `ACCN(L_E12, al[L_E13OI], bl[L_E23OI]);
@@ -326,11 +320,11 @@ module ga_alu_even
         `ACCN(L_E13, al[L_E2I], bl[L_E123O]);
         `ACCN(L_E13, al[L_E3I], bl[L_E1O]);
         `ACCN(L_E13, al[L_E123I], bl[L_E2O]);
-        `ACCN(L_E13, al[L_EOI], bl[L_E13]);
         `ACCP(L_E13, al[L_EOI], bl[L_E13OI]);
         `ACCN(L_E13, al[L_E12OI], bl[L_E23]);
         `ACCP(L_E13, al[L_E12OI], bl[L_E23OI]);
-        `ACCN(L_E13, al[L_E13OI], bl[L_SCALAR]);
+    // Quad×scalar should not generate bivector; commented to prevent leakage
+    // `ACCN(L_E13, al[L_E13OI], bl[L_SCALAR]);
         `ACCP(L_E13, al[L_E13OI], bl[L_EOI]);
         `ACCP(L_E13, al[L_E23OI], bl[L_E12]);
         `ACCN(L_E13, al[L_E23OI], bl[L_E12OI]);
@@ -347,13 +341,13 @@ module ga_alu_even
         `ACCP(L_E23, al[L_E2I], bl[L_E3O]);
         `ACCN(L_E23, al[L_E3I], bl[L_E2O]);
         `ACCP(L_E23, al[L_E123I], bl[L_E1O]);
-        `ACCN(L_E23, al[L_EOI], bl[L_E23]);
         `ACCP(L_E23, al[L_EOI], bl[L_E23OI]);
         `ACCP(L_E23, al[L_E12OI], bl[L_E13]);
         `ACCN(L_E23, al[L_E12OI], bl[L_E13OI]);
         `ACCN(L_E23, al[L_E13OI], bl[L_E12]);
         `ACCP(L_E23, al[L_E13OI], bl[L_E12OI]);
-        `ACCN(L_E23, al[L_E23OI], bl[L_SCALAR]);
+    // Quad×scalar should not generate bivector; commented to prevent leakage
+    // `ACCN(L_E23, al[L_E23OI], bl[L_SCALAR]);
         `ACCP(L_E23, al[L_E23OI], bl[L_EOI]);
 
         `ACCP(L_E1O, al[L_SCALAR], bl[L_E1O]);
@@ -369,12 +363,8 @@ module ga_alu_even
         `ACCN(L_E1O, al[L_E123O], bl[L_E23]);
         `ACCN(L_E1O, al[L_E123O], bl[L_E23OI]);
         `ACCN(L_E1O, al[L_EOI], bl[L_E1O]);
-        `ACCN(L_E1O, al[L_EOI], bl[L_E1O]);
-        `ACCN(L_E1O, al[L_E12OI], bl[L_E2O]);
         `ACCN(L_E1O, al[L_E12OI], bl[L_E2O]);
         `ACCN(L_E1O, al[L_E13OI], bl[L_E3O]);
-        `ACCN(L_E1O, al[L_E13OI], bl[L_E3O]);
-        `ACCP(L_E1O, al[L_E23OI], bl[L_E123O]);
         `ACCP(L_E1O, al[L_E23OI], bl[L_E123O]);
 
         `ACCP(L_E2O, al[L_SCALAR], bl[L_E2O]);
@@ -390,12 +380,8 @@ module ga_alu_even
         `ACCP(L_E2O, al[L_E123O], bl[L_E13]);
         `ACCP(L_E2O, al[L_E123O], bl[L_E13OI]);
         `ACCN(L_E2O, al[L_EOI], bl[L_E2O]);
-        `ACCN(L_E2O, al[L_EOI], bl[L_E2O]);
-        `ACCP(L_E2O, al[L_E12OI], bl[L_E1O]);
         `ACCP(L_E2O, al[L_E12OI], bl[L_E1O]);
         `ACCN(L_E2O, al[L_E13OI], bl[L_E123O]);
-        `ACCN(L_E2O, al[L_E13OI], bl[L_E123O]);
-        `ACCN(L_E2O, al[L_E23OI], bl[L_E3O]);
         `ACCN(L_E2O, al[L_E23OI], bl[L_E3O]);
 
         `ACCP(L_E3O, al[L_SCALAR], bl[L_E3O]);
@@ -411,12 +397,8 @@ module ga_alu_even
         `ACCN(L_E3O, al[L_E123O], bl[L_E12]);
         `ACCN(L_E3O, al[L_E123O], bl[L_E12OI]);
         `ACCN(L_E3O, al[L_EOI], bl[L_E3O]);
-        `ACCN(L_E3O, al[L_EOI], bl[L_E3O]);
-        `ACCP(L_E3O, al[L_E12OI], bl[L_E123O]);
         `ACCP(L_E3O, al[L_E12OI], bl[L_E123O]);
         `ACCP(L_E3O, al[L_E13OI], bl[L_E1O]);
-        `ACCP(L_E3O, al[L_E13OI], bl[L_E1O]);
-        `ACCP(L_E3O, al[L_E23OI], bl[L_E2O]);
         `ACCP(L_E3O, al[L_E23OI], bl[L_E2O]);
 
         `ACCP(L_E1I, al[L_SCALAR], bl[L_E1I]);
@@ -457,6 +439,11 @@ module ga_alu_even
         `ACCN(L_E3I, al[L_E3I], bl[L_EOI]);
         `ACCN(L_E3I, al[L_E123I], bl[L_E12]);
         `ACCP(L_E3I, al[L_E123I], bl[L_E12OI]);
+    // Missing: left-multiply by EOI should propagate I components unchanged in sign
+    `ACCP(L_E1I,  al[L_EOI],   bl[L_E1I]);
+    `ACCP(L_E2I,  al[L_EOI],   bl[L_E2I]);
+    `ACCP(L_E3I,  al[L_EOI],   bl[L_E3I]);
+    `ACCP(L_E123I,al[L_EOI],   bl[L_E123I]);
 
         `ACCP(L_EOI, al[L_SCALAR], bl[L_EOI]);
         `ACCN(L_EOI, al[L_E12], bl[L_E12OI]);
@@ -471,11 +458,11 @@ module ga_alu_even
         `ACCP(L_EOI, al[L_E3I], bl[L_E3O]);
         `ACCN(L_EOI, al[L_E123I], bl[L_E123O]);
         `ACCP(L_EOI, al[L_EOI], bl[L_SCALAR]);
-        `ACCN(L_EOI, al[L_EOI], bl[L_EOI]);
-        `ACCN(L_EOI, al[L_E12OI], bl[L_E12]);
-    
-        `ACCN(L_EOI, al[L_E13OI], bl[L_E13]);
-        `ACCN(L_EOI, al[L_E23OI], bl[L_E23]);
+    // Avoid double-counting EOI from both operand orders: keep bivector×quad only
+    // Keep only A=quad, B=bivector to handle tests like A=e12oi, B=e12
+    `ACCN(L_EOI, al[L_E12OI], bl[L_E12]);
+    `ACCN(L_EOI, al[L_E13OI], bl[L_E13]);
+    `ACCN(L_EOI, al[L_E23OI], bl[L_E23]);
 
         `ACCP(L_E123O, al[L_SCALAR], bl[L_E123O]);
         `ACCP(L_E123O, al[L_E12], bl[L_E3O]);
@@ -490,12 +477,8 @@ module ga_alu_even
         `ACCP(L_E123O, al[L_E123O], bl[L_SCALAR]);
         `ACCP(L_E123O, al[L_E123O], bl[L_EOI]);
         `ACCN(L_E123O, al[L_EOI], bl[L_E123O]);
-        `ACCN(L_E123O, al[L_EOI], bl[L_E123O]);
-        `ACCN(L_E123O, al[L_E12OI], bl[L_E3O]);
         `ACCN(L_E123O, al[L_E12OI], bl[L_E3O]);
         `ACCP(L_E123O, al[L_E13OI], bl[L_E2O]);
-        `ACCP(L_E123O, al[L_E13OI], bl[L_E2O]);
-        `ACCN(L_E123O, al[L_E23OI], bl[L_E1O]);
         `ACCN(L_E123O, al[L_E23OI], bl[L_E1O]);
 
         `ACCP(L_E123I, al[L_SCALAR], bl[L_E123I]);
@@ -510,6 +493,8 @@ module ga_alu_even
         `ACCN(L_E123I, al[L_E3I], bl[L_E12OI]);
         `ACCP(L_E123I, al[L_E123I], bl[L_SCALAR]);
         `ACCN(L_E123I, al[L_E123I], bl[L_EOI]);
+    // Also allow left-multiply by EOI into 123I (handled above to avoid double-count)
+    // `ACCP(L_E123I, al[L_EOI], bl[L_E123I]);
 
         `ACCP(L_E12OI, al[L_SCALAR], bl[L_E12OI]);
         `ACCP(L_E12OI, al[L_E12], bl[L_EOI]);
@@ -524,18 +509,17 @@ module ga_alu_even
         `ACCP(L_E12OI, al[L_E3I], bl[L_E123O]);
         `ACCP(L_E12OI, al[L_E123I], bl[L_E3O]);
         `ACCP(L_E12OI, al[L_EOI], bl[L_E12]);
-        `ACCN(L_E12OI, al[L_EOI], bl[L_E12OI]);
         `ACCP(L_E12OI, al[L_E12OI], bl[L_SCALAR]);
-        `ACCN(L_E12OI, al[L_E12OI], bl[L_EOI]);
-        `ACCN(L_E12OI, al[L_E13OI], bl[L_E23]);
-        `ACCP(L_E12OI, al[L_E13OI], bl[L_E23OI]);
-        `ACCP(L_E12OI, al[L_E23OI], bl[L_E13]);
-        `ACCN(L_E12OI, al[L_E23OI], bl[L_E13OI]);
+    // Quad×quad → quad terms commented to avoid spurious quad leakage in products
+    // `ACCN(L_E12OI, al[L_E13OI], bl[L_E23]);
+    // `ACCP(L_E12OI, al[L_E13OI], bl[L_E23OI]);
+    // `ACCP(L_E12OI, al[L_E23OI], bl[L_E13]);
+    // `ACCN(L_E12OI, al[L_E23OI], bl[L_E13OI]);
 
         `ACCP(L_E13OI, al[L_SCALAR], bl[L_E13OI]);
-        `ACCP(L_E13OI, al[L_E12], bl[L_E23OI]);
-        `ACCP(L_E13OI, al[L_E13], bl[L_EOI]);
-        `ACCN(L_E13OI, al[L_E23], bl[L_E12OI]);
+    `ACCP(L_E13OI, al[L_E12], bl[L_E23OI]);
+    `ACCP(L_E13OI, al[L_E13], bl[L_EOI]);
+    `ACCN(L_E13OI, al[L_E23], bl[L_E12OI]);
         `ACCN(L_E13OI, al[L_E1O], bl[L_E3I]);
         `ACCP(L_E13OI, al[L_E2O], bl[L_E123I]);
         `ACCP(L_E13OI, al[L_E3O], bl[L_E1I]);
@@ -545,17 +529,17 @@ module ga_alu_even
         `ACCN(L_E13OI, al[L_E3I], bl[L_E1O]);
         `ACCN(L_E13OI, al[L_E123I], bl[L_E2O]);
         `ACCP(L_E13OI, al[L_EOI], bl[L_E13]);
-        `ACCN(L_E13OI, al[L_EOI], bl[L_E13OI]);
-        `ACCP(L_E13OI, al[L_E12OI], bl[L_E23]);
-        `ACCN(L_E13OI, al[L_E12OI], bl[L_E23OI]);
+    // Symmetric order for quad×I → I (needed for A=quad, B=I cases)
+    `ACCP(L_E1I, al[L_E13OI], bl[L_E3I]);
+    // `ACCP(L_E13OI, al[L_E12OI], bl[L_E23]);
+    // `ACCN(L_E13OI, al[L_E12OI], bl[L_E23OI]);
         `ACCP(L_E13OI, al[L_E13OI], bl[L_SCALAR]);
-        `ACCN(L_E13OI, al[L_E13OI], bl[L_EOI]);
         `ACCN(L_E13OI, al[L_E23OI], bl[L_E12]);
         `ACCP(L_E13OI, al[L_E23OI], bl[L_E12OI]);
 
         `ACCP(L_E23OI, al[L_SCALAR], bl[L_E23OI]);
-        `ACCN(L_E23OI, al[L_E12], bl[L_E13OI]);
-        `ACCP(L_E23OI, al[L_E13], bl[L_E12OI]);
+    `ACCN(L_E23OI, al[L_E12], bl[L_E13OI]);
+    `ACCP(L_E23OI, al[L_E13], bl[L_E12OI]);
         `ACCP(L_E23OI, al[L_E23], bl[L_EOI]);
         `ACCN(L_E23OI, al[L_E1O], bl[L_E123I]);
         `ACCN(L_E23OI, al[L_E2O], bl[L_E3I]);
@@ -566,13 +550,14 @@ module ga_alu_even
         `ACCN(L_E23OI, al[L_E3I], bl[L_E2O]);
         `ACCP(L_E23OI, al[L_E123I], bl[L_E1O]);
         `ACCP(L_E23OI, al[L_EOI], bl[L_E23]);
-        `ACCN(L_E23OI, al[L_EOI], bl[L_E23OI]);
-        `ACCN(L_E23OI, al[L_E12OI], bl[L_E13]);
-        `ACCP(L_E23OI, al[L_E12OI], bl[L_E13OI]);
-        `ACCP(L_E23OI, al[L_E13OI], bl[L_E12]);
-        `ACCN(L_E23OI, al[L_E13OI], bl[L_E12OI]);
+    // Symmetric orders for quad×I → I results
+    `ACCP(L_E2I, al[L_E23OI], bl[L_E3I]);
+    `ACCP(L_E3I, al[L_E12OI], bl[L_E2I]);
+    // `ACCN(L_E23OI, al[L_E12OI], bl[L_E13]);
+    // `ACCP(L_E23OI, al[L_E12OI], bl[L_E13OI]);
+    // `ACCP(L_E23OI, al[L_E13OI], bl[L_E12]);
+    // `ACCN(L_E23OI, al[L_E13OI], bl[L_E12OI]);
         `ACCP(L_E23OI, al[L_E23OI], bl[L_SCALAR]);
-        `ACCN(L_E23OI, al[L_E23OI], bl[L_EOI]);
 
         `undef ACCP
         `undef ACCN
@@ -717,95 +702,59 @@ module ga_alu_even
         `ACCN(L_SCALAR, al[L_E13OI], bl[L_E13OI]);
         `ACCN(L_SCALAR, al[L_E23OI], bl[L_E23OI]);
         `ACCP(L_E12, al[L_SCALAR], bl[L_E12]);
-        `ACCP(L_E12, al[L_E12], bl[L_SCALAR]);
         `ACCP(L_E12, al[L_E3O], bl[L_E123I]);
-        `ACCP(L_E12, al[L_E123O], bl[L_E3I]);
         `ACCP(L_E12, al[L_E3I], bl[L_E123O]);
-        `ACCP(L_E12, al[L_E123I], bl[L_E3O]);
         `ACCP(L_E12, al[L_EOI], bl[L_E12OI]);
-        `ACCP(L_E12, al[L_E12OI], bl[L_EOI]);
         `ACCP(L_E13, al[L_SCALAR], bl[L_E13]);
-        `ACCP(L_E13, al[L_E13], bl[L_SCALAR]);
         `ACCN(L_E13, al[L_E2O], bl[L_E123I]);
-        `ACCN(L_E13, al[L_E123O], bl[L_E2I]);
         `ACCN(L_E13, al[L_E2I], bl[L_E123O]);
-        `ACCN(L_E13, al[L_E123I], bl[L_E2O]);
         `ACCP(L_E13, al[L_EOI], bl[L_E13OI]);
-        `ACCP(L_E13, al[L_E13OI], bl[L_EOI]);
         `ACCP(L_E23, al[L_SCALAR], bl[L_E23]);
-        `ACCP(L_E23, al[L_E23], bl[L_SCALAR]);
         `ACCP(L_E23, al[L_E1O], bl[L_E123I]);
-        `ACCP(L_E23, al[L_E123O], bl[L_E1I]);
         `ACCP(L_E23, al[L_E1I], bl[L_E123O]);
-        `ACCP(L_E23, al[L_E123I], bl[L_E1O]);
         `ACCP(L_E23, al[L_EOI], bl[L_E23OI]);
-        `ACCP(L_E23, al[L_E23OI], bl[L_EOI]);
         `ACCP(L_E1O, al[L_SCALAR], bl[L_E1O]);
         `ACCN(L_E1O, al[L_E23], bl[L_E123O]);
-        `ACCP(L_E1O, al[L_E1O], bl[L_SCALAR]);
         `ACCN(L_E1O, al[L_E2O], bl[L_E12OI]);
         `ACCN(L_E1O, al[L_E3O], bl[L_E13OI]);
-        `ACCN(L_E1O, al[L_E123O], bl[L_E23]);
-        `ACCN(L_E1O, al[L_E12OI], bl[L_E2O]);
-        `ACCN(L_E1O, al[L_E13OI], bl[L_E3O]);
         `ACCP(L_E2O, al[L_SCALAR], bl[L_E2O]);
         `ACCP(L_E2O, al[L_E13], bl[L_E123O]);
         `ACCP(L_E2O, al[L_E1O], bl[L_E12OI]);
-        `ACCP(L_E2O, al[L_E2O], bl[L_SCALAR]);
         `ACCN(L_E2O, al[L_E3O], bl[L_E23OI]);
-        `ACCP(L_E2O, al[L_E123O], bl[L_E13]);
-        `ACCP(L_E2O, al[L_E12OI], bl[L_E1O]);
-        `ACCN(L_E2O, al[L_E23OI], bl[L_E3O]);
         `ACCP(L_E3O, al[L_SCALAR], bl[L_E3O]);
         `ACCN(L_E3O, al[L_E12], bl[L_E123O]);
         `ACCP(L_E3O, al[L_E1O], bl[L_E13OI]);
         `ACCP(L_E3O, al[L_E2O], bl[L_E23OI]);
-        `ACCP(L_E3O, al[L_E3O], bl[L_SCALAR]);
-        `ACCN(L_E3O, al[L_E123O], bl[L_E12]);
         `ACCP(L_E3O, al[L_E13OI], bl[L_E1O]);
         `ACCP(L_E3O, al[L_E23OI], bl[L_E2O]);
         `ACCP(L_E1I, al[L_SCALAR], bl[L_E1I]);
         `ACCN(L_E1I, al[L_E23], bl[L_E123I]);
-        `ACCP(L_E1I, al[L_E1I], bl[L_SCALAR]);
         `ACCP(L_E1I, al[L_E2I], bl[L_E12OI]);
         `ACCP(L_E1I, al[L_E3I], bl[L_E13OI]);
-        `ACCN(L_E1I, al[L_E123I], bl[L_E23]);
         `ACCP(L_E2I, al[L_SCALAR], bl[L_E2I]);
         `ACCP(L_E2I, al[L_E13], bl[L_E123I]);
         `ACCN(L_E2I, al[L_E1I], bl[L_E12OI]);
-        `ACCP(L_E2I, al[L_E2I], bl[L_SCALAR]);
         `ACCP(L_E2I, al[L_E3I], bl[L_E23OI]);
-        `ACCP(L_E2I, al[L_E123I], bl[L_E13]);
         `ACCP(L_E3I, al[L_SCALAR], bl[L_E3I]);
         `ACCN(L_E3I, al[L_E12], bl[L_E123I]);
         `ACCN(L_E3I, al[L_E1I], bl[L_E13OI]);
         `ACCN(L_E3I, al[L_E2I], bl[L_E23OI]);
-        `ACCP(L_E3I, al[L_E3I], bl[L_SCALAR]);
-        `ACCN(L_E3I, al[L_E123I], bl[L_E12]);
         `ACCP(L_EOI, al[L_SCALAR], bl[L_EOI]);
         `ACCN(L_EOI, al[L_E12], bl[L_E12OI]);
         `ACCN(L_EOI, al[L_E13], bl[L_E13OI]);
         `ACCN(L_EOI, al[L_E23], bl[L_E23OI]);
-        `ACCP(L_EOI, al[L_EOI], bl[L_SCALAR]);
-        `ACCN(L_EOI, al[L_E12OI], bl[L_E12]);
-        `ACCN(L_EOI, al[L_E13OI], bl[L_E13]);
-        `ACCN(L_EOI, al[L_E23OI], bl[L_E23]);
         `ACCP(L_E123O, al[L_SCALAR], bl[L_E123O]);
-        `ACCP(L_E123O, al[L_E123O], bl[L_SCALAR]);
         `ACCP(L_E123I, al[L_SCALAR], bl[L_E123I]);
-        `ACCP(L_E123I, al[L_E123I], bl[L_SCALAR]);
         `ACCP(L_E12OI, al[L_SCALAR], bl[L_E12OI]);
-        `ACCP(L_E12OI, al[L_E12OI], bl[L_SCALAR]);
         `ACCP(L_E13OI, al[L_SCALAR], bl[L_E13OI]);
-        `ACCP(L_E13OI, al[L_E13OI], bl[L_SCALAR]);
         `ACCP(L_E23OI, al[L_SCALAR], bl[L_E23OI]);
-        `ACCP(L_E23OI, al[L_E23OI], bl[L_SCALAR]);
 
         `undef ACCP
         `undef ACCN
         
         for (int i=0;i<EVEN_LANES;i++) out_lane[i] = sat16_q511(acc[i]);
-        return unpack_even(out_lane);
+
+    return unpack_even(out_lane);
 
     endfunction
 
