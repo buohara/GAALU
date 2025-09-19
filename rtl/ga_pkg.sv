@@ -35,34 +35,34 @@ package ga_pkg;
     logic [GA_MV_WIDTH-1:0] e1;
     logic [GA_MV_WIDTH-1:0] e2;
     logic [GA_MV_WIDTH-1:0] e3;
-    logic [GA_MV_WIDTH-1:0] eo;
-    logic [GA_MV_WIDTH-1:0] ei;
+    logic [GA_MV_WIDTH-1:0] e4;
+    logic [GA_MV_WIDTH-1:0] e5;
     logic [GA_MV_WIDTH-1:0] e12;
     logic [GA_MV_WIDTH-1:0] e13;
     logic [GA_MV_WIDTH-1:0] e23;
-    logic [GA_MV_WIDTH-1:0] e1o;
-    logic [GA_MV_WIDTH-1:0] e2o;
-    logic [GA_MV_WIDTH-1:0] e3o;
-    logic [GA_MV_WIDTH-1:0] e1i;
-    logic [GA_MV_WIDTH-1:0] e2i;
-    logic [GA_MV_WIDTH-1:0] e3i;
-    logic [GA_MV_WIDTH-1:0] eoi;
+    logic [GA_MV_WIDTH-1:0] e14;
+    logic [GA_MV_WIDTH-1:0] e24;
+    logic [GA_MV_WIDTH-1:0] e34;
+    logic [GA_MV_WIDTH-1:0] e15;
+    logic [GA_MV_WIDTH-1:0] e25;
+    logic [GA_MV_WIDTH-1:0] e35;
+    logic [GA_MV_WIDTH-1:0] e45;
     logic [GA_MV_WIDTH-1:0] e123;
-    logic [GA_MV_WIDTH-1:0] e12o;
-    logic [GA_MV_WIDTH-1:0] e13o;
-    logic [GA_MV_WIDTH-1:0] e23o;
-    logic [GA_MV_WIDTH-1:0] e12i;
-    logic [GA_MV_WIDTH-1:0] e13i;
-    logic [GA_MV_WIDTH-1:0] e23i;
-    logic [GA_MV_WIDTH-1:0] e1oi;
-    logic [GA_MV_WIDTH-1:0] e2oi;
-    logic [GA_MV_WIDTH-1:0] e3oi;
-    logic [GA_MV_WIDTH-1:0] e123o;
-    logic [GA_MV_WIDTH-1:0] e123i;
-    logic [GA_MV_WIDTH-1:0] e12oi;
-    logic [GA_MV_WIDTH-1:0] e13oi;
-    logic [GA_MV_WIDTH-1:0] e23oi;
-    logic [GA_MV_WIDTH-1:0] e123oi;
+    logic [GA_MV_WIDTH-1:0] e124;
+    logic [GA_MV_WIDTH-1:0] e134;
+    logic [GA_MV_WIDTH-1:0] e234;
+    logic [GA_MV_WIDTH-1:0] e125;
+    logic [GA_MV_WIDTH-1:0] e135;
+    logic [GA_MV_WIDTH-1:0] e235;
+    logic [GA_MV_WIDTH-1:0] e145;
+    logic [GA_MV_WIDTH-1:0] e245;
+    logic [GA_MV_WIDTH-1:0] e345;
+    logic [GA_MV_WIDTH-1:0] e1234;
+    logic [GA_MV_WIDTH-1:0] e1235;
+    logic [GA_MV_WIDTH-1:0] e1245;
+    logic [GA_MV_WIDTH-1:0] e1345;
+    logic [GA_MV_WIDTH-1:0] e2345;
+    logic [GA_MV_WIDTH-1:0] e12345;
   } ga_multivector_t;
 
   typedef struct packed
@@ -130,11 +130,11 @@ package ga_pkg;
   {
     logic signed [15:0] scalar;
     logic signed [15:0] e12, e13, e23;
-    logic signed [15:0] e1o, e2o, e3o;
-    logic signed [15:0] e1i, e2i, e3i;
-    logic signed [15:0] eoi;
-    logic signed [15:0] e123o, e123i;
-    logic signed [15:0] e12oi, e13oi, e23oi;
+    logic signed [15:0] e14, e24, e34;
+    logic signed [15:0] e15, e25, e35;
+    logic signed [15:0] e45;
+    logic signed [15:0] e1234, e1235;
+    logic signed [15:0] e1245, e1345, e2345;
   } ga_even_multivector_t;
 
   function automatic ga_even_multivector_t mv_to_even(input ga_multivector_t mv);
@@ -142,11 +142,11 @@ package ga_pkg;
     ga_even_multivector_t r;
     r.scalar = mv.scalar;
     r.e12    = mv.e12;    r.e13    = mv.e13;    r.e23    = mv.e23;
-    r.e1o    = mv.e1o;    r.e2o    = mv.e2o;    r.e3o    = mv.e3o;
-    r.e1i    = mv.e1i;    r.e2i    = mv.e2i;    r.e3i    = mv.e3i;
-    r.eoi    = mv.eoi;
-    r.e123o  = mv.e123o;  r.e123i  = mv.e123i;
-    r.e12oi  = mv.e12oi;  r.e13oi  = mv.e13oi;  r.e23oi  = mv.e23oi;
+    r.e14    = mv.e14;    r.e24    = mv.e24;    r.e34    = mv.e34;
+    r.e15    = mv.e15;    r.e25    = mv.e25;    r.e35    = mv.e35;
+    r.e45    = mv.e45;
+    r.e1234  = mv.e1234;  r.e1235  = mv.e1235;
+    r.e1245  = mv.e1245;  r.e1345  = mv.e1345;  r.e2345  = mv.e2345;
 
     return r;
 
@@ -157,11 +157,11 @@ package ga_pkg;
     ga_multivector_t mv = '0;
     mv.scalar = e.scalar;
     mv.e12    = e.e12;    mv.e13    = e.e13;    mv.e23    = e.e23;
-    mv.e1o    = e.e1o;    mv.e2o    = e.e2o;    mv.e3o    = e.e3o;
-    mv.e1i    = e.e1i;    mv.e2i    = e.e2i;    mv.e3i    = e.e3i;
-    mv.eoi    = e.eoi;
-    mv.e123o  = e.e123o;  mv.e123i  = e.e123i;
-    mv.e12oi  = e.e12oi;  mv.e13oi  = e.e13oi;  mv.e23oi  = e.e23oi;
+    mv.e14    = e.e14;    mv.e24    = e.e24;    mv.e34    = e.e34;
+    mv.e15    = e.e15;    mv.e25    = e.e25;    mv.e35    = e.e35;
+    mv.e45    = e.e45;
+    mv.e1234  = e.e1234;  mv.e1235  = e.e1235;
+    mv.e1245  = e.e1245;  mv.e1345  = e.e1345;  mv.e2345  = e.e2345;
     
     return mv;
 
@@ -186,10 +186,10 @@ package ga_pkg;
                  ((mv.e2[GA_MV_WIDTH-1]) ? ~mv.e2 + 1 : mv.e2) : max_grade1;
     max_grade1 = ((mv.e3[GA_MV_WIDTH-1]) ? ~mv.e3 + 1 : mv.e3) > max_grade1 ? 
                  ((mv.e3[GA_MV_WIDTH-1]) ? ~mv.e3 + 1 : mv.e3) : max_grade1;
-    max_grade1 = ((mv.eo[GA_MV_WIDTH-1]) ? ~mv.eo + 1 : mv.eo) > max_grade1 ? 
-                 ((mv.eo[GA_MV_WIDTH-1]) ? ~mv.eo + 1 : mv.eo) : max_grade1;
-    max_grade1 = ((mv.ei[GA_MV_WIDTH-1]) ? ~mv.ei + 1 : mv.ei) > max_grade1 ? 
-                 ((mv.ei[GA_MV_WIDTH-1]) ? ~mv.ei + 1 : mv.ei) : max_grade1;
+    max_grade1 = ((mv.e4[GA_MV_WIDTH-1]) ? ~mv.e4 + 1 : mv.e4) > max_grade1 ? 
+                 ((mv.e4[GA_MV_WIDTH-1]) ? ~mv.e4 + 1 : mv.e4) : max_grade1;
+    max_grade1 = ((mv.e5[GA_MV_WIDTH-1]) ? ~mv.e5 + 1 : mv.e5) > max_grade1 ? 
+                 ((mv.e5[GA_MV_WIDTH-1]) ? ~mv.e5 + 1 : mv.e5) : max_grade1;
     
     max_grade2 = (mv.e12[GA_MV_WIDTH-1]) ? ~mv.e12 + 1 : mv.e12;
 
@@ -197,14 +197,14 @@ package ga_pkg;
                  ((mv.e13[GA_MV_WIDTH-1]) ? ~mv.e13 + 1 : mv.e13) : max_grade2;
     max_grade2 = ((mv.e23[GA_MV_WIDTH-1]) ? ~mv.e23 + 1 : mv.e23) > max_grade2 ? 
                  ((mv.e23[GA_MV_WIDTH-1]) ? ~mv.e23 + 1 : mv.e23) : max_grade2;
-    max_grade2 = ((mv.e1o[GA_MV_WIDTH-1]) ? ~mv.e1o + 1 : mv.e1o) > max_grade2 ? 
-                 ((mv.e1o[GA_MV_WIDTH-1]) ? ~mv.e1o + 1 : mv.e1o) : max_grade2;
-    max_grade2 = ((mv.eoi[GA_MV_WIDTH-1]) ? ~mv.eoi + 1 : mv.eoi) > max_grade2 ? 
-                 ((mv.eoi[GA_MV_WIDTH-1]) ? ~mv.eoi + 1 : mv.eoi) : max_grade2;
+    max_grade2 = ((mv.e14[GA_MV_WIDTH-1]) ? ~mv.e14 + 1 : mv.e14) > max_grade2 ? 
+                 ((mv.e14[GA_MV_WIDTH-1]) ? ~mv.e14 + 1 : mv.e14) : max_grade2;
+    max_grade2 = ((mv.e45[GA_MV_WIDTH-1]) ? ~mv.e45 + 1 : mv.e45) > max_grade2 ? 
+                 ((mv.e45[GA_MV_WIDTH-1]) ? ~mv.e45 + 1 : mv.e45) : max_grade2;
     
     max_grade3 = (mv.e123[GA_MV_WIDTH-1]) ? ~mv.e123 + 1 : mv.e123;
-    max_grade4 = (mv.e123o[GA_MV_WIDTH-1]) ? ~mv.e123o + 1 : mv.e123o;
-    max_grade5 = (mv.e123oi[GA_MV_WIDTH-1]) ? ~mv.e123oi + 1 : mv.e123oi;
+    max_grade4 = (mv.e1234[GA_MV_WIDTH-1]) ? ~mv.e1234 + 1 : mv.e1234;
+    max_grade5 = (mv.e12345[GA_MV_WIDTH-1]) ? ~mv.e12345 + 1 : mv.e12345;
     
     dominant_grade = 3'b000;
     
@@ -220,16 +220,16 @@ endfunction
 
 function automatic logic ga_is_scalar(ga_multivector_t mv);
 
-    return (mv.e1 == 0) && (mv.e2 == 0) && (mv.e3 == 0) && (mv.eo == 0) && (mv.ei == 0) &&
+    return (mv.e1 == 0) && (mv.e2 == 0) && (mv.e3 == 0) && (mv.e4 == 0) && (mv.e5 == 0) &&
            (mv.e12 == 0) && (mv.e13 == 0) && (mv.e23 == 0) && 
-           (mv.e1o == 0) && (mv.e2o == 0) && (mv.e3o == 0) && 
-           (mv.e1i == 0) && (mv.e2i == 0) && (mv.e3i == 0) && (mv.eoi == 0) &&
-           (mv.e123 == 0) && (mv.e12o == 0) && (mv.e13o == 0) && (mv.e23o == 0) && 
-           (mv.e12i == 0) && (mv.e13i == 0) && (mv.e23i == 0) && 
-           (mv.e1oi == 0) && (mv.e2oi == 0) && (mv.e3oi == 0) &&
-           (mv.e123o == 0) && (mv.e123i == 0) && 
-           (mv.e12oi == 0) && (mv.e13oi == 0) && (mv.e23oi == 0) &&
-           (mv.e123oi == 0);
+           (mv.e14 == 0) && (mv.e24 == 0) && (mv.e34 == 0) && 
+           (mv.e15 == 0) && (mv.e25 == 0) && (mv.e35 == 0) && (mv.e45 == 0) &&
+           (mv.e123 == 0) && (mv.e124 == 0) && (mv.e134 == 0) && (mv.e234 == 0) && 
+           (mv.e125 == 0) && (mv.e135 == 0) && (mv.e235 == 0) && 
+           (mv.e145 == 0) && (mv.e245 == 0) && (mv.e345 == 0) &&
+           (mv.e1234 == 0) && (mv.e1235 == 0) && 
+           (mv.e1245 == 0) && (mv.e1345 == 0) && (mv.e2345 == 0) &&
+           (mv.e12345 == 0);
 
 endfunction
 
@@ -238,62 +238,62 @@ function automatic logic ga_is_vector(ga_multivector_t mv);
     return (mv.scalar == 0) && 
 
            (mv.e12 == 0) && (mv.e13 == 0) && (mv.e23 == 0) && 
-           (mv.e1o == 0) && (mv.e2o == 0) && (mv.e3o == 0) && 
-           (mv.e1i == 0) && (mv.e2i == 0) && (mv.e3i == 0) && (mv.eoi == 0) &&
-           (mv.e123 == 0) && (mv.e12o == 0) && (mv.e13o == 0) && (mv.e23o == 0) && 
-           (mv.e12i == 0) && (mv.e13i == 0) && (mv.e23i == 0) && 
-           (mv.e1oi == 0) && (mv.e2oi == 0) && (mv.e3oi == 0) &&
-           (mv.e123o == 0) && (mv.e123i == 0) && 
-           (mv.e12oi == 0) && (mv.e13oi == 0) && (mv.e23oi == 0) &&
-           (mv.e123oi == 0) &&
-           ((mv.e1 != 0) || (mv.e2 != 0) || (mv.e3 != 0) || (mv.eo != 0) || (mv.ei != 0));
+           (mv.e14 == 0) && (mv.e24 == 0) && (mv.e34 == 0) && 
+           (mv.e15 == 0) && (mv.e25 == 0) && (mv.e35 == 0) && (mv.e45 == 0) &&
+           (mv.e123 == 0) && (mv.e124 == 0) && (mv.e134 == 0) && (mv.e234 == 0) && 
+           (mv.e125 == 0) && (mv.e135 == 0) && (mv.e235 == 0) && 
+           (mv.e145 == 0) && (mv.e245 == 0) && (mv.e345 == 0) &&
+           (mv.e1234 == 0) && (mv.e1235 == 0) && 
+           (mv.e1245 == 0) && (mv.e1345 == 0) && (mv.e2345 == 0) &&
+           (mv.e12345 == 0) &&
+           ((mv.e1 != 0) || (mv.e2 != 0) || (mv.e3 != 0) || (mv.e4 != 0) || (mv.e5 != 0));
 
 endfunction
 
 function automatic logic ga_is_bivector(ga_multivector_t mv);
 
     return (mv.scalar == 0) && 
-           (mv.e1 == 0) && (mv.e2 == 0) && (mv.e3 == 0) && (mv.eo == 0) && (mv.ei == 0) &&
-           (mv.e123 == 0) && (mv.e12o == 0) && (mv.e13o == 0) && (mv.e23o == 0) && 
-           (mv.e12i == 0) && (mv.e13i == 0) && (mv.e23i == 0) && 
-           (mv.e1oi == 0) && (mv.e2oi == 0) && (mv.e3oi == 0) &&
-           (mv.e123o == 0) && (mv.e123i == 0) && 
-           (mv.e12oi == 0) && (mv.e13oi == 0) && (mv.e23oi == 0) &&
-           (mv.e123oi == 0) &&
+           (mv.e1 == 0) && (mv.e2 == 0) && (mv.e3 == 0) && (mv.e4 == 0) && (mv.e5 == 0) &&
+           (mv.e123 == 0) && (mv.e124 == 0) && (mv.e134 == 0) && (mv.e234 == 0) && 
+           (mv.e125 == 0) && (mv.e135 == 0) && (mv.e235 == 0) && 
+           (mv.e145 == 0) && (mv.e245 == 0) && (mv.e345 == 0) &&
+           (mv.e1234 == 0) && (mv.e1235 == 0) && 
+           (mv.e1245 == 0) && (mv.e1345 == 0) && (mv.e2345 == 0) &&
+           (mv.e12345 == 0) &&
            ((mv.e12 != 0) || (mv.e13 != 0) || (mv.e23 != 0) || 
-            (mv.e1o != 0) || (mv.e2o != 0) || (mv.e3o != 0) || 
-            (mv.e1i != 0) || (mv.e2i != 0) || (mv.e3i != 0) || (mv.eoi != 0));
+            (mv.e14 != 0) || (mv.e24 != 0) || (mv.e34 != 0) || 
+            (mv.e15 != 0) || (mv.e25 != 0) || (mv.e35 != 0) || (mv.e45 != 0));
 
 endfunction
 
 function automatic logic ga_is_cga_point(ga_multivector_t mv);
 
     return (mv.scalar == 0) && 
-           (mv.eo != 0) &&
+           (mv.e4 != 0) &&
            (mv.e12 == 0) && (mv.e13 == 0) && (mv.e23 == 0) && 
-           (mv.e1o == 0) && (mv.e2o == 0) && (mv.e3o == 0) && 
-           (mv.e1i == 0) && (mv.e2i == 0) && (mv.e3i == 0) && (mv.eoi == 0) &&
-           (mv.e123 == 0) && (mv.e12o == 0) && (mv.e13o == 0) && (mv.e23o == 0) && 
-           (mv.e12i == 0) && (mv.e13i == 0) && (mv.e23i == 0) && 
-           (mv.e1oi == 0) && (mv.e2oi == 0) && (mv.e3oi == 0) &&
-           (mv.e123o == 0) && (mv.e123i == 0) && 
-           (mv.e12oi == 0) && (mv.e13oi == 0) && (mv.e23oi == 0) &&
-           (mv.e123oi == 0);
+           (mv.e14 == 0) && (mv.e24 == 0) && (mv.e34 == 0) && 
+           (mv.e15 == 0) && (mv.e25 == 0) && (mv.e35 == 0) && (mv.e45 == 0) &&
+           (mv.e123 == 0) && (mv.e124 == 0) && (mv.e134 == 0) && (mv.e234 == 0) && 
+           (mv.e125 == 0) && (mv.e135 == 0) && (mv.e235 == 0) && 
+           (mv.e145 == 0) && (mv.e245 == 0) && (mv.e345 == 0) &&
+           (mv.e1234 == 0) && (mv.e1235 == 0) && 
+           (mv.e1245 == 0) && (mv.e1345 == 0) && (mv.e2345 == 0) &&
+           (mv.e12345 == 0);
 endfunction
 
 function automatic logic ga_is_cga_sphere(ga_multivector_t mv);
     
     return (mv.scalar == 0) && 
-           (mv.e1 == 0) && (mv.e2 == 0) && (mv.e3 == 0) && (mv.eo == 0) && (mv.ei == 0) &&
+           (mv.e1 == 0) && (mv.e2 == 0) && (mv.e3 == 0) && (mv.e4 == 0) && (mv.e5 == 0) &&
            (mv.e12 == 0) && (mv.e13 == 0) && (mv.e23 == 0) && 
-           (mv.e1o == 0) && (mv.e2o == 0) && (mv.e3o == 0) && 
-           (mv.e1i == 0) && (mv.e2i == 0) && (mv.e3i == 0) && (mv.eoi == 0) &&
-           (mv.e123 == 0) && (mv.e12o == 0) && (mv.e13o == 0) && (mv.e23o == 0) && 
-           (mv.e12i == 0) && (mv.e13i == 0) && (mv.e23i == 0) && 
-           (mv.e1oi == 0) && (mv.e2oi == 0) && (mv.e3oi == 0) &&
-           (mv.e123oi == 0) &&
-           ((mv.e123o != 0) || (mv.e123i != 0) || 
-            (mv.e12oi != 0) || (mv.e13oi != 0) || (mv.e23oi != 0));
+           (mv.e14 == 0) && (mv.e24 == 0) && (mv.e34 == 0) && 
+           (mv.e15 == 0) && (mv.e25 == 0) && (mv.e35 == 0) && (mv.e45 == 0) &&
+           (mv.e123 == 0) && (mv.e124 == 0) && (mv.e134 == 0) && (mv.e234 == 0) && 
+           (mv.e125 == 0) && (mv.e135 == 0) && (mv.e235 == 0) && 
+           (mv.e145 == 0) && (mv.e245 == 0) && (mv.e345 == 0) &&
+           (mv.e12345 == 0) &&
+           ((mv.e1234 != 0) || (mv.e1235 != 0) || 
+            (mv.e1245 != 0) || (mv.e1345 != 0) || (mv.e2345 != 0));
 
 endfunction
 

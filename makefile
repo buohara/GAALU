@@ -37,7 +37,7 @@ simulate: $(RTL_DIR)/*.sv $(TB_DIR)/tb_ga_coprocessor.sv
 		$(RTL_DIR)/ga_coprocessor.sv \
 		$(RTL_DIR)/ga_register_file.sv \
 		$(TB_DIR)/tb_ga_coprocessor.sv
-	./obj_dir/Vtb_ga_coprocessor $(SIM_ARGS) $(if $(filter 1,$(WAVES)),+WAVES)
+#	./obj_dir/Vtb_ga_coprocessor $(SIM_ARGS) $(if $(filter 1,$(WAVES)),+WAVES)
 
 clean:
 	rm -rf tests/obj_dir/

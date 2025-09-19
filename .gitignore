@@ -11,4 +11,6 @@ gaalu_proj
 obj_dir
 run.sh
 *.vcd
+tests/log/
+*.pyc
 simlog.txt
