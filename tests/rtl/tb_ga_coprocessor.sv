@@ -309,7 +309,7 @@ module tb_ga_coprocessor;
 
       end
       
-      return 1'b1; // Pass if all components within tolerance
+      return 1'b1;
 
     endfunction
 

@@ -14,3 +14,6 @@ run.sh
 tests/log/
 *.pyc
 simlog.txt
+scripts/fpga/reports/
+scripts/.srcs/
+scripts/.gen/

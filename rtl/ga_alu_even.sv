@@ -256,7 +256,7 @@ module ga_alu_even
         ga_multivector_t a,
         ga_multivector_t b
     );
-        longint signed acc[EVEN_LANES];
+        int signed acc[EVEN_LANES];
         logic signed [FP_W-1:0] al[EVEN_LANES], bl[EVEN_LANES];
         logic signed [FP_W-1:0] out_lane[EVEN_LANES];
         
@@ -570,7 +570,7 @@ module ga_alu_even
         ga_multivector_t b
     );
 
-        longint signed acc[EVEN_LANES];
+        int signed acc[EVEN_LANES];
         logic signed [FP_W-1:0] al[EVEN_LANES], bl[EVEN_LANES];
         logic signed [FP_W-1:0] out_lane[EVEN_LANES];
         
@@ -687,7 +687,7 @@ module ga_alu_even
         ga_multivector_t a,
         ga_multivector_t b
     );
-        longint signed acc[EVEN_LANES];
+        int signed acc[EVEN_LANES];
         logic signed [FP_W-1:0] al[EVEN_LANES], bl[EVEN_LANES];
         logic signed [FP_W-1:0] out_lane[EVEN_LANES];
         

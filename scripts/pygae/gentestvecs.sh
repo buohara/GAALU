@@ -20,8 +20,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$SCRIPT_DIR/.."
-GEN_PY="$SCRIPT_DIR/pygae/gen_test_vecs.py"
+REPO_ROOT="$SCRIPT_DIR/../.."
+GEN_PY="$SCRIPT_DIR/gen_test_vecs.py"
 OUT_DIR="$REPO_ROOT/tests/vectors"
 
 if [[ ! -f "$GEN_PY" ]]; then

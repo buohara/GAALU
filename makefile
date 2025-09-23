@@ -29,7 +29,7 @@ ifeq ($(WAVES),1)
 endif
 
 simulate: $(RTL_DIR)/*.sv $(TB_DIR)/tb_ga_coprocessor.sv
-	bash scripts/gentestvecs.sh -n $(NUM_TESTS) $(GEN_EVEN_FLAG)
+	bash scripts/pygae/gentestvecs.sh -n $(NUM_TESTS) $(GEN_EVEN_FLAG)
 	verilator $(VERILATOR_FLAGS) \
 		$(RTL_DIR)/ga_pkg.sv \
 		$(RTL_DIR)/ga_alu_even.sv \
@@ -42,6 +42,8 @@ simulate: $(RTL_DIR)/*.sv $(TB_DIR)/tb_ga_coprocessor.sv
 clean:
 	rm -rf tests/obj_dir/
 	rm -f tests/*.log tests/*.vcd
+	rm -f scripts/vivado*
+	rm -rf scripts/gaalu_proj/
 	rm -rf $(VECTORS_DIR)
 
 help:
