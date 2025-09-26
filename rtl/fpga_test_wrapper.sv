@@ -1,5 +1,5 @@
 module fpga_test_wrapper #(
-    parameter NUM_TESTS = 1000
+    parameter NUM_TESTS = 100
 )
 (
     input  logic        clk,

@@ -45,6 +45,7 @@ clean:
 	rm -f scripts/vivado*
 	rm -rf scripts/gaalu_proj/
 	rm -rf $(VECTORS_DIR)
+	rm -f scripts/*.dcp scripts/*.bit scripts/*.txt
 
 help:
 	@echo "Verilator Simulation:"
